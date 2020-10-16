@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block meta %}<meta http-equiv="refresh" content="10" />{% endblock %}
+{% block page-id %}"today"{% endblock %}
+{% block content %}
+<div id="content-main">
+  <table border="1" cellspacing="0">
+  {% if date %}<h2>Today: {{ date|date:"Y-m-d H:i:s" }}</h2>{% endif %}
+  <thead>
+    <tr>
+      {% for h in header %}<th>{{ h }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>{% for row in rows %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+      <td>{{ row.0 }}</td><td class="num">{{ row.1 }}</td>
+    </tr>{% endfor %}
+  </tbody>
+  </table>
+  <br/>
+  <table border="1" cellspacing="0">
+  <h2>Last 10 events:</h2>
+  <thead>
+    <tr>
+      {% for h in headerE %}<th>{{ h }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>{% for row in rowsE %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+      <td>{{ row.device }}</td><td>{{ row.get_event_display }}</td><td>{{ row.tms|date:"Y-m-d  H:i:s" }}</td>
+    </tr>{% endfor %}
+  </tbody>
+  </table>
+</div>
+{% endblock %}

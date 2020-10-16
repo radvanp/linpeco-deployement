@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block page-id %}"month"{% endblock %}
+{% block content %}
+<div id="content-main">
+  <table border="1" cellspacing="0">
+  <h2>Month: {{ date_from|date:"Y-m" }}</h2>
+  <thead>
+    <tr>
+      {% for h in header %}<th>{{ h }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>{% for row in rows %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+      <td><a href=/day/?day={{ row.date|date:"Y-m-d" }}>{{ row.date|date:"Y-m-d" }}</a></td><td>{{ row.place }}</td>
+      <td class="num">{{ row.event_in }}</td><td class="num">{{ row.event_out }}</td><td class="num">{{ row.event_tag }}</td>
+    </tr>{% endfor %}
+  </tbody>
+  </table>
+  <p><a href="?csv;month={{ date_from|date:"Y-m" }}">Download</a></p>
+  <br/>
+  <div id="graph" style="width:500px;height:300px;"></div>
+
+  <script language="javascript" type="text/javascript" src="/static/app/css/jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="/static/app/css/jquery.flot.js"></script>
+  <script language="javascript" type="text/javascript" src="/static/app/css/jquery.flot.stack.js"></script>
+  <script type="text/javascript">
+  $(function () {
+	var dd = new Date({{ date_from|date:"Y" }}, {{ date_from|date:"m" }}, 0);
+	maxDay = dd.getDate();
+    var dataIn = [];
+    var dataOut = [];
+    var dataTag = [];
+    {% for row in rows %}dataIn.push([ {{ row.date|date:"d" }}, {{ row.event_in }} ]);
+    dataOut.push([ {{ row.date|date:"d" }}, {{ row.event_out }} ]);
+    dataTag.push([ {{ row.date|date:"d" }}, {{ row.event_tag }} ]);{% endfor %}
+    var options = {
+        series: {bars: { show: true, barWidth: 0.7, align: 'center' }},
+        xaxis: {ticks: 24, min: 0.5, max: maxDay+0.5, tickDecimals: 0},
+    };
+    $.plot($("#graph"), [{label: 'In', data: dataIn}, {label: 'Out', data: dataOut}, {label: 'Tag', data: dataTag}], options);
+  });
+  </script>
+</div>
+{% endblock %}

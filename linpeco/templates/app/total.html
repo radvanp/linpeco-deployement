@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block page-id %}"total"{% endblock %}
+{% block content %}
+<div id="content-main">
+  <table border="1" cellspacing="0">
+  <h2>Total:</h2>
+  <thead>
+    <tr>
+      {% for h in header %}<th>{{ h }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <!-- tr class="{% cycle 'row1' 'row2' %}" onclick="javascript: window.location = '/year/?year={{ row.date|date:"Y" }}';"> %%} -->
+  <tbody>{% for row in rows %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+      <td><a href=/year/?year={{ row.date|date:"Y" }}>{{ row.date|date:"Y" }}</a></td><td>{{ row.place }}</td>
+      <td class="num">{{ row.event_in }}</td><td class="num">{{ row.event_out }}</td><td class="num">{{ row.event_tag }}</td>
+    </tr>{% endfor %}
+  </tbody>
+  </table>
+  <p><a href="?csv{% if date %};year={{ date_from }}{% endif %}">Download</a></p>
+</div>
+{% endblock %}

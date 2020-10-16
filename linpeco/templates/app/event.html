@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block page-id %}"event"{% endblock %}
+{% block content %}
+<div id="content-main">
+  <table border="1" cellspacing="0">
+  <h2>Events: {{ date_from|date:"Y-m-d H:00 ... H:59" }}</h2>
+  <thead>
+    <tr>
+      {% for h in header %}<th>{{ h }}</th>{% endfor %}
+    </tr>
+  </thead>
+  <tbody>{% for row in rows %}
+    <tr class="{% cycle 'row1' 'row2' %}">
+      <td>{{ row.device }}</td><td>{{ row.get_event_display }}</td><td>{{ row.tms|date:"Y-m-d  H:i:s" }}</td>
+    </tr>{% endfor %}
+  </tbody>
+  </table>
+  <p><a href="?csv;day={{ date_from|date:"Y-m-d-H" }}">Download</a></p>
+</div>
+{% endblock %}

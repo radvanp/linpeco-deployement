@@ -1,0 +1,9 @@
+#Doplnil som toto do models.py
+from django.utils.translation import gettext as _
+
+# maxlength-> max_length
+#doplnene -> on_delete=models.CASCADE,
+# oprava modelu, view, template
+..
+Jednotlive zmeny su: # povodne
+                       nove
